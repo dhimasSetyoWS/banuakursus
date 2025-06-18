@@ -1,15 +1,16 @@
 <script setup>
 import Layout from "@/Pages/Dashboard/Layouts/Admin.vue";
-import { Link, useForm } from "@inertiajs/vue3"
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-
-const props = defineProps({
+import { useForm, router } from "@inertiajs/vue3"
+defineProps({
     courses : {
-        type : Object
+        type : Array
     }
-});
+})
+
+const formatted = ref("Rp 0,00")
 
 const isModal = ref(false);
 const form = useForm({
@@ -17,25 +18,45 @@ const form = useForm({
     description: '',
     price: '',
 });
+// Format to currency
 
 const formatter = new Intl.NumberFormat('id-ID', {
     style: "currency",
     currency: "IDR"
 });
 
-const formatted = ref("");
-
 function formatPrice() {
     formatted.value = formatter.format(form.price)
 }
 
-const submit = () => {
-    form.post(route('course.store'));
+// End of format
+
+// Toggle Modal
+function toggleModal() {
+    isModal.value = !isModal.value
+}
+
+// Submit course
+const submit = async () => {
+    const a = await form.post(route('course.store'), {
+        onSuccess : () => {
+            form.reset()
+            formatter.value = "Rp 0,00"
+        }
+    });
+    setTimeout(function () {
+        isModal.value = false
+    } , 2000)
 };
 
 
-function toggleModal() {
-    isModal.value = !isModal.value
+// Delete course
+function deleteCourse(id) {
+    router.delete(route('course.destroy' , id)); // delete course
+}
+
+function editCourse(id) {
+    router.get(route('dashboard.edit' , id));
 }
 </script>
 <template>
@@ -69,7 +90,16 @@ function toggleModal() {
                     class="w-full pl-10 pr-4 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
         </div>
-
+        <div v-if="$page.props.flash.message" class="flex">
+            <div class="px-2 py-4 text-green-600 rounded mb-4 inline-block font-bold">
+                {{ $page.props.flash.message }} !
+            </div>
+        </div>
+        <div v-if="$page.props.flash.delete" class="flex">
+            <div class="px-2 py-4 text-red-600 rounded mb-4 inline-block font-bold">
+                {{ $page.props.flash.delete }} !
+            </div>
+        </div>
         <div class="bg-white rounded-lg border border-slate-200 shadow-sm">
             <div class="overflow-x-auto">
                 <!-- Table List Kursus -->
@@ -77,73 +107,41 @@ function toggleModal() {
                     <thead class="bg-slate-50 text-slate-600">
                         <tr>
                             <th class="p-3 font-medium">Nama Kursus</th>
-                            <th class="p-3 font-medium">Kategori</th>
+                            <th class="p-3 font-medium">Deskripsi</th>
                             <th class="p-3 font-medium">Harga</th>
-                            <th class="p-3 font-medium">Jumlah Siswa</th>
-                            <th class="p-3 font-medium">Status</th>
+                            <!-- <th class="p-3 font-medium">Jumlah Siswa</th> -->
+                            <!-- <th class="p-3 font-medium">Status</th> -->
                             <th class="p-3 font-medium text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="border-b border-slate-200 hover:bg-slate-50">
-                            <td class="p-3">
-                                <div class="flex items-center gap-3">
-                                    <img src="https://placehold.co/100x60/6366f1/ffffff?text=DM" alt="Kursus"
-                                        class="w-20 h-12 object-cover rounded-md">
-                                    <span class="font-semibold">Digital Marketing untuk Pemula</span>
-                                </div>
-                            </td>
-                            <td class="p-3">Marketing</td>
-                            <td class="p-3">Rp 199.000</td>
-                            <td class="p-3">152</td>
-                            <td class="p-3">
-                                <span
-                                    class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Published</span>
-                            </td>
-                            <td class="p-3">
-                                <div class="flex items-center justify-center gap-2">
-                                    <button
-                                        class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-md"><svg
-                                            class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                        </svg></button>
-                                    <button
-                                        class="p-2 text-slate-500 hover:text-red-600 hover:bg-slate-100 rounded-md"><svg
-                                            class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                        </svg></button>
-                                </div>
-                            </td>
+                        <tr v-if="courses.length == 0">
+                            <td class="p-3">Anda belum membuat Courses !</td>
                         </tr>
-                        <tr class="border-b border-slate-200 hover:bg-slate-50">
+                        <tr v-for="data in courses" :key="data" class="border-b border-slate-200 hover:bg-slate-50">
+                            <!-- Name -->
                             <td class="p-3">
                                 <div class="flex items-center gap-3">
                                     <img src="https://placehold.co/100x60/8b5cf6/ffffff?text=WEB" alt="Kursus"
                                         class="w-20 h-12 object-cover rounded-md">
-                                    <span class="font-semibold">Dasar-Dasar Web Development</span>
+                                    <span class="font-semibold">{{ data.title_course }}</span>
                                 </div>
                             </td>
-                            <td class="p-3">Teknologi</td>
-                            <td class="p-3">Gratis</td>
-                            <td class="p-3">2.340</td>
-                            <td class="p-3">
-                                <span
-                                    class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Published</span>
-                            </td>
+                            <!-- Desc -->
+                            <td class="p-3">{{data.description}}</td>
+                            <!-- Price -->
+                            <td class="p-3">{{formatter.format(data.price)}}</td>
+                            <!-- Action -->
                             <td class="p-3">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button
+                                    <button @click="editCourse(data.course_id)"
                                         class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-md"><svg
                                             class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg></button>
-                                    <button
+                                    <button @click="deleteCourse(data.course_id)"
                                         class="p-2 text-slate-500 hover:text-red-600 hover:bg-slate-100 rounded-md"><svg
                                             class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -153,7 +151,7 @@ function toggleModal() {
                                 </div>
                             </td>
                         </tr>
-                        <tr class="border-b border-slate-200 hover:bg-slate-50">
+                        <!-- <tr class="border-b border-slate-200 hover:bg-slate-50">
                             <td class="p-3">
                                 <div class="flex items-center gap-3">
                                     <img src="https://placehold.co/100x60/10b981/ffffff?text=UI/UX" alt="Kursus"
@@ -186,15 +184,13 @@ function toggleModal() {
                                         </svg></button>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
         </div>
     </Layout>
     <!-- Modal -->
-    <div v-if="isModal" class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-
     <div v-if="isModal" id="modal" class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div
@@ -221,15 +217,16 @@ function toggleModal() {
                                     <input @input="formatPrice" type="number" id="hargacourse"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                         required v-model="form.price">
-                                    {{ formatted }}
+                                    <small class="text-gray-600">Format dalam Currency</small>
+                                    <p class="text-lg ms-2 ps-3 mt-2 text-gray-600 border-s">{{ formatted }}</p>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                    <button @click="submit" type="button"
-                        class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto">Tambah</button>
+                    <button :disable="form.processing" @click="submit" type="button"
+                        class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 sm:ml-3 sm:w-auto disabled:bg-gray-500">Tambah</button>
                     <button @click="toggleModal" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
                 </div>
@@ -237,3 +234,7 @@ function toggleModal() {
         </div>
     </div>
 </template>
+
+<style scoped>
+
+</style>

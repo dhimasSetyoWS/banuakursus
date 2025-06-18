@@ -1,5 +1,11 @@
 <script setup>
 import Layout from "../Layouts/Admin.vue";
+
+defineProps({
+    totalCourse : {
+        type : Number
+    }
+})
 </script>
 <template>
     <Layout>
@@ -66,8 +72,8 @@ import Layout from "../Layouts/Admin.vue";
                 <div class="flex items-start justify-between">
                     <div>
                         <p class="text-sm font-medium text-slate-500">Jumlah Kursus</p>
-                        <p class="text-2xl font-bold mt-1">25</p>
-                        <p class="text-xs text-slate-500 mt-1">2 kursus baru ditambahkan</p>
+                        <p class="text-2xl font-bold mt-1">{{ totalCourse }}</p>
+                        <p class="text-xs text-slate-500 mt-1">Anda mempunyai {{ totalCourse }} kursus</p>
                     </div>
                     <div class="p-2 bg-orange-100 rounded-md">
                         <svg class="w-6 h-6 text-orange-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24"

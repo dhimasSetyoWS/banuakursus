@@ -14,15 +14,16 @@ use App\Http\Controllers\ViewController;
 Route::controller(ViewController::class)->group(function () {
     Route::get('/', 'showHome')->name('welcome');
     Route::get('/catalog', 'showCatalog')->name('catalog');
+    Route::get('/aboutus', 'showAboutUs')->name('aboutus');
+    Route::get('/contact', 'showContact')->name('contact');
 });
 
 
 // Admin and Teacher
 Route::middleware(['auth' , 'verified' , 'nostudent'])->group(function () {
-    Route::get('/dashboard' , function () {
-        return Inertia::render('Dashboard/Page/MainDashboard');
-    })->name('dashboard');
+    Route::get('/dashboard/{id}', [CourseController::class , 'index'])->name('dashboard');
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
+    Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');
 });
 
 // Profile Setting
@@ -33,8 +34,10 @@ Route::middleware('auth')->group(function () {
 });
 
 // Course
-Route::middleware('nostudent')->group(function () {
+Route::middleware(['auth' , 'verified' , 'nostudent'])->group(function () {
     Route::post('/course/store-course' , [CourseController::class , 'store'])->name('course.store');
+    Route::match(['put' , 'patch'],'/course/update-course/{id}' , [CourseController::class , 'update'])->name('course.update');
+    Route::delete('/course/delete/{id}' , [CourseController::class , 'destroy'])->name('course.destroy');
 });
 
 require __DIR__.'/auth.php';

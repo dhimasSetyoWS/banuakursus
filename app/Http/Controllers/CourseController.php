@@ -12,17 +12,23 @@ class CourseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
         //
+        // $a = self::getTotalCourse($id);
+        return Inertia::render('Dashboard/Page/MainDashboard' , [
+            'totalCourse' => self::getTotalCourse($id),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function getTotalCourse($id)
     {
         //
+        $totalCourse = Course::where('user_id', $id)->get()->count();
+        return $totalCourse;
     }
 
     /**
@@ -31,6 +37,7 @@ class CourseController extends Controller
     public function store(Request $request)
     {
         //
+        sleep(1);
         $request->validate([
             'title_course' => 'required|string|max:255|unique:' . Course::class,
             'description' => 'required|string',
@@ -43,10 +50,8 @@ class CourseController extends Controller
             'price' => $request->price,
             'user_id' => Auth::user()->id,
         ]);
-
-        return redirect()->route('dashboard.manage');
-
-
+        // refresh kembali halaman
+        return redirect()->route('dashboard.manage' , Auth::user()->id)->with('message' , 'Success tambah data');
     }
 
     /**
@@ -55,10 +60,11 @@ class CourseController extends Controller
     public function show(string $id)
     {
         //
-        $courses = Course::where('user_id' , $id)->get();
-        return Inertia::render('Dashboard/Page/ManageCourse' , [
+        sleep(1);
+        $courses = Course::where('user_id', $id)->get(['course_id', 'title_course', 'description', 'price']);
+        return Inertia::render('Dashboard/Page/ManageCourse', [
             'courses' => $courses
-        ]);
+        ])->with('message' , 'Course berhasil di buat');
     }
 
     /**
@@ -67,6 +73,11 @@ class CourseController extends Controller
     public function edit(string $id)
     {
         //
+        sleep(1);
+        $course = Course::where('course_id' , $id)->first();
+        return Inertia::render('Dashboard/Page/Course/Edit' , [
+            'course' => $course
+        ]);
     }
 
     /**
@@ -75,6 +86,17 @@ class CourseController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        sleep(1);
+        $validate = $request->validate([
+            'title_course' => ['string', 'max:255', 'unique:' . Course::class],
+            'description' => ['string'],
+            'price' => ['integer'],
+        ]);
+
+        if($validate) {
+            Course::where('course_id' , $id)->update($validate);
+            return redirect()->route('dashboard.manage' , Auth::user()->id)->with('message' , 'Course berhasil di update');
+        }
     }
 
     /**
@@ -83,5 +105,12 @@ class CourseController extends Controller
     public function destroy(string $id)
     {
         //
+        $deleted = Course::where('course_id', $id);
+        if ($deleted) {
+            $deleted->delete();
+            return redirect()->route('dashboard.manage', Auth::user()->id)->with('delete', 'Course berhasil di delete');
+        } else {
+            return redirect()->route('dashboard.manage', Auth::user()->id)->with('error', 'Gagal Delete');
+        }
     }
 }

@@ -26,4 +26,21 @@ class ViewController extends Controller
         'phpVersion' => PHP_VERSION,
     ]);
     }
+
+    public function showAboutUs() {
+        return Inertia::render('AboutUs', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+    }
+    public function showContact() {
+        return Inertia::render('Contact', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+    }
 }

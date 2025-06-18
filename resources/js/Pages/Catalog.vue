@@ -1,22 +1,23 @@
 <script setup>
-import Navbar from "@/Components/Navbar.vue";
-const props = defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    },
-})
-const a = props.canLogin
-const b = props.canRegister
+    import Footer from "@/Components/Footer.vue";
+    import Navbar from "@/Components/Navbar.vue";
+    const props = defineProps({
+        canLogin: {
+            type: Boolean,
+        },
+        canRegister: {
+            type: Boolean,
+        },
+    })
+    const a = props.canLogin
+    const b = props.canRegister
 </script>
 
 <template>
 
     <Head title="Catalog" />
     <Navbar :canLogin="a" :canRegister="b" />
-    <main class="max-w-[1200px] mx-auto px-6 py-20">
+    <main class="max-w-[1200px] mx-auto px-6 py-20 fade-up">
         <section class="mb-24 max-w-3xl mx-auto text-left sm:text-center">
             <h2 class="font-poppins font-extrabold text-5xl text-[#1e293b] mb-4 leading-tight">Katalog Kursus <span
                     class="text-[#2563eb]">Banua</span> <span class="text-[#1e40af]">Kursus</span></h2>
@@ -282,70 +283,87 @@ const b = props.canRegister
             </a>
         </div>
     </main>
+    <Footer/>
 </template>
 
 <style scoped>
-body {
-    font-family: "Inter", sans-serif;
-    background-color: white;
-    min-height: 100vh;
-    color: #1e293b;
-}
+    .fade-up {
+        animation: fadeUp 0.8s ease-in-out both;
+    }
 
-h1,
-h2 {
-    font-family: "Poppins", sans-serif;
-}
+    @keyframes fadeUp {
+        0% {
+            opacity: 0;
+            transform: translateY(30px);
+        }
 
-/* Popular Category & Tools base style */
-.interactive-card {
-    background-color: #f6fafa;
-    /* very light blue-white */
-    border-radius: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    border: 2px solid transparent;
-    cursor: pointer;
-}
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
-.interactive-card:hover,
-.interactive-card:focus-visible {
-    border-color: #2563eb;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
-    outline: none;
-}
+    body {
+        font-family: "Inter", sans-serif;
+        background-color: white;
+        min-height: 100vh;
+        color: #1e293b;
+    }
 
-/* Popular Category and Tools inner spacing */
-.category-card,
-.tool-card {
-    padding: 1.5rem 1.75rem;
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-}
+    h1,
+    h2 {
+        font-family: "Poppins", sans-serif;
+    }
 
-/* Text styling */
-.category-text,
-.tool-text {
-    font-weight: 600;
-    font-size: 1.125rem;
-    /* text-lg */
-    line-height: 1.3;
-    color: #1e293b;
-    user-select: none;
-}
+    /* Popular Category & Tools base style */
+    .interactive-card {
+        background-color: #f6fafa;
+        /* very light blue-white */
+        border-radius: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid transparent;
+        cursor: pointer;
+    }
 
-.tool-subtext {
-    font-size: 0.75rem;
-    /* text-xs */
-    color: #94a3b8;
-    user-select: none;
-    margin-top: 0.125rem;
-}
+    .interactive-card:hover,
+    .interactive-card:focus-visible {
+        border-color: #2563eb;
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
+        outline: none;
+    }
 
-/* Footer */
-footer {
-    color: #64748b;
-    font-size: 0.875rem;
-    user-select: none;
-}
+    /* Popular Category and Tools inner spacing */
+    .category-card,
+    .tool-card {
+        padding: 1.5rem 1.75rem;
+        display: flex;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    /* Text styling */
+    .category-text,
+    .tool-text {
+        font-weight: 600;
+        font-size: 1.125rem;
+        /* text-lg */
+        line-height: 1.3;
+        color: #1e293b;
+        user-select: none;
+    }
+
+    .tool-subtext {
+        font-size: 0.75rem;
+        /* text-xs */
+        color: #94a3b8;
+        user-select: none;
+        margin-top: 0.125rem;
+    }
+
+    /* Footer */
+    footer {
+        color: #64748b;
+        font-size: 0.875rem;
+        user-select: none;
+    }
 </style>

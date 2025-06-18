@@ -6,13 +6,13 @@
             <ul class="hidden md:flex items-center space-x-6">
                 <li><Link :href="route('welcome')" class="text-gray-600 hover:text-indigo-600 transition-colors">Beranda</Link></li>
                 <li><Link :href="route('catalog')" class="text-gray-600 hover:text-indigo-600 transition-colors">Katalog Kursus</Link></li>
-                <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">Tentang Kami</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition-colors">Kontak</a></li>
+                <li><Link :href="route('aboutus')" class="text-gray-600 hover:text-indigo-600 transition-colors">Tentang Kami</Link></li>
+                <li><Link :href="route('contact')" class="text-gray-600 hover:text-indigo-600 transition-colors">Kontak</Link></li>
             </ul>
 
             <div v-if="canLogin" class="hidden md:flex items-center justify-end space-x-4">
-                <div v-if="$page.props.auth.user" class="flex gap-3">
-                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard')"
+                <div v-if="$page.props.auth.user" class="flex gap-3 items-center">
+                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard' , $page.props.auth.user.id)"
                         class="text-indigo-600 px-4 py-2 rounded-md transition-colors">
                     Dashboard</Link>
                     <div class="relative inline-block">
@@ -66,11 +66,11 @@
         <div id="mobile-menu" class="md:hidden px-6 pt-2 pb-4" :class="{ 'hidden': !isMobile }">
             <Link :href="route('welcome')" class="block py-2 text-gray-600 hover:text-indigo-600">Beranda</Link>
             <Link :href="route('catalog')" class="block py-2 text-gray-600 hover:text-indigo-600">Katalog Kursus</Link>
-            <a href="#" class="block py-2 text-gray-600 hover:text-indigo-600">Tentang Kami</a>
-            <a href="#" class="block py-2 text-gray-600 hover:text-indigo-600">Kontak</a>
+            <Link :href="route('aboutus')" class="block py-2 text-gray-600 hover:text-indigo-600">Tentang Kami</Link>
+            <Link :href="route('contact')" class="block py-2 text-gray-600 hover:text-indigo-600">Kontak</Link>
             <div v-if="canLogin" class="mt-4 pt-4 border-t border-gray-200">
                 <div v-if="$page.props.auth.user">
-                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard')"
+                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard' , $page.props.auth.user.id)"
                         class="block w-full text-center py-2 text-gray-600 hover:text-indigo-600">Dashboard</Link>
                     <Link v-else :href="route('profile.edit')"
                         class="block w-full text-center py-2 text-gray-600 hover:text-indigo-600">Profile</Link>

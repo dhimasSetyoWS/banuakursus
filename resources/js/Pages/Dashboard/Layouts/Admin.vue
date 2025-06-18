@@ -32,8 +32,8 @@ function dropdownToggle() {
                     <!-- Sidebar -->
                     <nav class="flex-1 px-4 py-4 space-y-2">
                         <div v-if="$page.props.auth.user.role_id != 4">
-                            <Link :href="route('dashboard')"
-                                class="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-slate-100" :class="$page.url == '/dashboard' ? 'bg-indigo-50  text-indigo-600' : 'text-slate-600'">
+                            <Link :href="route('dashboard' , $page.props.auth.user.id)"
+                                class="flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-slate-100" :class="$page.url == '/dashboard/' + $page.props.auth.user.id ? 'bg-indigo-50  text-indigo-600' : 'text-slate-600'">
                                 <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -43,7 +43,7 @@ function dropdownToggle() {
                                 Dashboard
                             </Link>
                             <Link :href="route('dashboard.manage' , $page.props.auth.user.id)"
-                                class="flex items-center px-4 py-2 text-sm font-medium hover:bg-slate-100 rounded-md" :class="$page.url == '/dashboard/manage-course' ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600'">
+                                class="flex items-center px-4 py-2 text-sm font-medium hover:bg-slate-100 rounded-md" :class="$page.url == '/dashboard/manage-course/' + $page.props.auth.user.id ? 'bg-indigo-50 text-indigo-600' : 'text-slate-600'">
                                 <svg class="w-5 h-5 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -168,7 +168,7 @@ function dropdownToggle() {
                                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-100"
                                         role="menuitem" tabindex="-1" id="menu-item-2">License</a>
                                     <Link :href="route('logout')" method="post"
-                                        class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-slate-100"
+                                        class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-slate-100"
                                         role="menuitem" tabindex="-1" id="menu-item-3">Sign out</Link>
                                 </div>
                             </div>
