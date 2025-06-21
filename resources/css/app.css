@@ -3,3 +3,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.textinput {
+    @apply rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500
+}
+
+.errorMsg {
+    @apply text-red-700 font-bold
+}

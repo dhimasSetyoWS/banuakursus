@@ -191,6 +191,7 @@ function editCourse(id) {
         </div>
     </Layout>
     <!-- Modal -->
+    <div v-if="isModal" class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
     <div v-if="isModal" id="modal" class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div
@@ -203,18 +204,18 @@ function editCourse(id) {
                         <div class="bodyModal text-start">
                             <form @submit.prevent="submit">
                                 <div>
-                                    <InputLabel for="" value="Nama Course" />
+                                    <InputLabel for="namecourse" value="Nama Course" />
                                     <TextInput id="namecourse" type="text" class="mt-1 block w-full" required autofocus
                                         autocomplete="name" v-model="form.title_course" />
                                 </div>
                                 <div class="mt-4">
-                                    <InputLabel for="" value="Deskripsi" />
+                                    <InputLabel for="description" value="Deskripsi" />
                                     <TextInput id="description" type="text" class="mt-1 block w-full" required
                                         v-model="form.description" />
                                 </div>
                                 <div class="mt-4">
-                                    <InputLabel for="" value="Harga" />
-                                    <input @input="formatPrice" type="number" id="hargacourse"
+                                    <InputLabel for="price" value="Harga" />
+                                    <input @input="formatPrice" type="number" id="price"
                                         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                         required v-model="form.price">
                                     <small class="text-gray-600">Format dalam Currency</small>

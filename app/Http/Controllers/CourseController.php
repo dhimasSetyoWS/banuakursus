@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\CourseModule;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -75,8 +76,10 @@ class CourseController extends Controller
         //
         sleep(1);
         $course = Course::where('course_id' , $id)->first();
-        return Inertia::render('Dashboard/Page/Course/Edit' , [
-            'course' => $course
+        $module = CourseModule::where('course_id' , $id)->get();
+        return Inertia::render('Dashboard/Page/Course/EditCourse' , [
+            'course' => $course,
+            'modules' => $module
         ]);
     }
 

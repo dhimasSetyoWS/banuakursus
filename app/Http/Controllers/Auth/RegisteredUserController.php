@@ -88,31 +88,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard.index', absolute: false));
+        return redirect(route('welcome', absolute: false));
     }
-
-    // public static function AguroozrequestRegister($password){
-
-
-    //     $encrypted = AguroozEncryption::encryptData($data, $secretKey);
-    //     $signature = AguroozEncryption::generateSignature(AguroozConfig::$institution_code,$secretBackKey);
-
-    //     $data = array(
-    //         'institution_code' => AguroozConfig::$institution_code,
-    //         'encrypted_data' => $encrypted,
-    //         'signature' => $signature
-    //     );
-
-    //     $final_url = AguroozConfig::$agurooz_url . "api/register-api";
-
-    //     $response = Http::post($final_url, $data);
-
-    //     $data = json_decode($response->body());
-
-    //     $status_code = $data->status_app;
-    //     if($status_code == 0){
-    //         return \ResponseHandler::errorResponse($data->message);
-    //     }
-    //     return \ResponseHandler::successResponse($data->message);
-    // }
 }
