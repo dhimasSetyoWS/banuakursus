@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CourseModule;
 use Illuminate\Http\Request;
 
-class ModuleController extends Controller
+class SessionController extends Controller
 {
     /**
      * Display a listing of the resource.

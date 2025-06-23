@@ -1,12 +1,13 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SessionController;
 use App\Models\Course;
 use App\Http\Controllers\ViewController;
 
@@ -21,7 +22,8 @@ Route::controller(ViewController::class)->group(function () {
 
 
 // Admin and Teacher
-Route::middleware(['auth' , 'verified' , 'nostudent'])->group(function () {
+Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->group(function () {
+    Route::get('/dashboard/teacher' , [AdminController::class , 'showTeacher'])->name('dashboard.teacher');
     Route::get('/dashboard/{id}', [CourseController::class , 'index'])->name('dashboard');
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
     Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');
@@ -35,17 +37,17 @@ Route::middleware('auth')->group(function () {
 });
 
 // Course
-Route::middleware(['auth' , 'verified' , 'nostudent'])->group(function () {
+Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->group(function () {
     Route::post('/course/store-course' , [CourseController::class , 'store'])->name('course.store');
     Route::match(['put' , 'patch'],'/course/update-course/{id}' , [CourseController::class , 'update'])->name('course.update');
     Route::delete('/course/delete/{id}' , [CourseController::class , 'destroy'])->name('course.destroy');
 });
 
-// Module
-ROute::middleware(['auth' , 'verified' , 'nostudent'])->group(function () {
-    Route::post('/module/store-module' , [ModuleController::class , 'store'])->name('module.store');
-    Route::match(['put' , 'patch'],'/module/update-module/{id}' , [ModuleController::class , 'update'])->name('module.update');
-    Route::delete('/module/delete-module/{id}' , [ModuleController::class , 'delete'])->name('module.delete');
+// Session
+Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->group(function () {
+    Route::post('/module/store-module' , [SessionController::class , 'store'])->name('module.store');
+    Route::match(['put' , 'patch'],'/module/update-module/{id}' , [SessionController::class , 'update'])->name('module.update');
+    Route::delete('/module/delete-module/{id}' , [SessionController::class , 'delete'])->name('module.delete');
 });
 
 require __DIR__.'/auth.php';

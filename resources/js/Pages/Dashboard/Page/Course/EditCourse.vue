@@ -162,8 +162,8 @@ function offModal() {
                     <div
                         class="headSection mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 sm:gap-0">
                         <div class="desc">
-                            <div class="text-lg font-bold text-slate-800">Modul Course</div>
-                            <div class="text-sm text-slate-500">Edit atau tambah modul dari course anda yang telah
+                            <div class="text-lg font-bold text-slate-800">Session Course</div>
+                            <div class="text-sm text-slate-500">Edit atau tambah session dari course anda yang telah
                                 dibuat Banua Kursus
                             </div>
                         </div>
@@ -180,11 +180,11 @@ function offModal() {
                         <div v-for="a in listofModule" :key="a"
                             class="modul-card px-2 py-4 bg-indigo-300 text-white rounded flex flex-col relative">
                             <div class="titleModule mb-3">
-                                <p>Judul Modul : </p>
+                                <p>Nama Session : </p>
                                 <p class="ps-3 border-s">{{ a.module_name }}</p>
                             </div>
                             <div class="body">
-                                <p>Link Video Modul : </p>
+                                <p>Link Video Session : </p>
                                 <a class="ps-3 border-s underline text-black" :href="'https://' + a.module_link"
                                     target="_blank">{{ a.module_link }}</a>
                             </div>

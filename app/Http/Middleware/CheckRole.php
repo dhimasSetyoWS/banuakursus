@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 class CheckRole
 {
     /**
@@ -13,10 +14,12 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$role): Response
     {
-        $a = Auth::user()->role_id;
-        if ($a == 4) {
+        $userRoleId = Auth::user()->role_id;
+        $roleName = Role::where('role_id' , $userRoleId)->firstOrFail()->role_name;
+        // dd($roleName);
+        if (!in_array($roleName, $role)) {
             return redirect()->route('welcome');
         }
         return $next($request);
