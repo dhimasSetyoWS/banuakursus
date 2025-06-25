@@ -34,8 +34,8 @@
                     </p>
                 </div>
                 <div class="fade-up flex justify-center">
-                    <img src="Keprofskill 1.jpg" alt="Team Banua"
-                        class="w-full max-w-md ml-6 rounded-3xl shadow-xl object-cover" </div>
+                    <img src="img/banuacourse-icon.png" alt="Team Banua"
+                        class="p-6 w-full max-w-md ml-6 rounded-3xl shadow-xl object-cover" </div>
                 </div>
         </section>
 
@@ -273,7 +273,7 @@
             <p class="text-lg mb-6 max-w-2xl mx-auto">Gabung sekarang dan nikmati pengalaman belajar yang seru,
                 profesional,
                 dan siap pakai di dunia kerja.</p>
-            <a href="#courses"
+            <a :href="route('catalog')"
                 class="inline-block px-8 py-3 bg-white text-blue-800 font-bold rounded-full hover:bg-blue-100 transition">Lihat
                 Katalog Kursus</a>
         </section>

@@ -173,7 +173,7 @@ function offModal() {
                                 stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
-                            Tambah Modul Baru
+                            Tambah Session Baru
                         </button>
                     </div>
                     <div class="listModul grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

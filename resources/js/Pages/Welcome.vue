@@ -1,16 +1,16 @@
 <script setup>
-    import Footer from "@/Components/Footer.vue";
-    import Navbar from "@/Components/Navbar.vue";
-    const props = defineProps({
-        canLogin: {
-            type: Boolean,
-        },
-        canRegister: {
-            type: Boolean,
-        },
-    })
-    const a = props.canLogin
-    const b = props.canRegister
+import Footer from "@/Components/Footer.vue";
+import Navbar from "@/Components/Navbar.vue";
+const props = defineProps({
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    },
+})
+const a = props.canLogin
+const b = props.canRegister
 </script>
 
 <template>
@@ -165,10 +165,10 @@
                     </div>
                 </div>
                 <div class="text-center mt-12">
-                    <a href="#"
+                    <Link :href="route('catalog')"
                         class="bg-white text-indigo-600 px-6 py-3 rounded-lg font-semibold border border-indigo-600 hover:bg-indigo-50 transition-colors">
-                        Lihat Semua Katalog Kursus
-                    </a>
+                    Lihat Semua Katalog Kursus
+                    </Link>
                 </div>
             </div>
         </section>
@@ -263,33 +263,33 @@
                     belajarmu di Banua Kursus hari ini!
                 </p>
                 <div class="mt-8">
-                    <a href="#"
+                    <Link :href="route('register')"
                         class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-bold hover:bg-indigo-100 transition-transform transform hover:scale-105">
                         Daftar Sekarang, Gratis!
-                    </a>
+                </Link>
                 </div>
             </div>
         </section>
         <!-- Footer -->
-        <Footer/>
+        <Footer />
     </main>
 </template>
 
 
 <style scoped>
-    .fade-up {
-        animation: fadeUp 0.8s ease-in-out both;
+.fade-up {
+    animation: fadeUp 0.8s ease-in-out both;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
     }
 
-    @keyframes fadeUp {
-        0% {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
 </style>

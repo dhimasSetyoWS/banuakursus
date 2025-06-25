@@ -1,8 +1,9 @@
 <template>
-    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50 fadeIn">
         <nav class="container mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
-            <a href="#" class="text-2xl font-bold text-indigo-600">BanuaKursus</a>
-
+            <a :href="route('welcome')" class="ms-5">
+                <img src="/img/banuacourse-icon.png" alt="" width="80">
+            </a>
             <ul class="hidden md:flex items-center space-x-6">
                 <li><Link :href="route('welcome')" class="text-gray-600 hover:text-indigo-600 transition-colors">Beranda</Link></li>
                 <li><Link :href="route('catalog')" class="text-gray-600 hover:text-indigo-600 transition-colors">Katalog Kursus</Link></li>
@@ -15,6 +16,10 @@
                     <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard' , $page.props.auth.user.id)"
                         class="text-indigo-600 px-4 py-2 rounded-md transition-colors">
                     Dashboard</Link>
+                    <Link :href="route('mycourse')" v-else
+                        class="text-indigo-600 px-4 py-2 rounded-md transition-colors">
+                    My Course</Link>
+
                     <div class="relative inline-block">
                         <a href="#" @click="dropdownToggle"
                             class="flex items-center space-x-2 rounded p-2 hover:bg-slate-100">

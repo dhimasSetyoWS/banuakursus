@@ -43,4 +43,12 @@ class ViewController extends Controller
         'phpVersion' => PHP_VERSION,
     ]);
     }
+    public function studentDashboard() {
+        return Inertia::render('Dashboard/Page/MainDashboard', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+    }
 }

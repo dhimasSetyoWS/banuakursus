@@ -18,12 +18,16 @@ Route::controller(ViewController::class)->group(function () {
     Route::get('/catalog', 'showCatalog')->name('catalog');
     Route::get('/aboutus', 'showAboutUs')->name('aboutus');
     Route::get('/contact', 'showContact')->name('contact');
+    Route::get('/mycourse', 'studentDashboard')->name('mycourse')
+    ;
 });
 
 
 // Admin and Teacher
 Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->group(function () {
     Route::get('/dashboard/teacher' , [AdminController::class , 'showTeacher'])->name('dashboard.teacher');
+    Route::get('/dashboard/student' , [AdminController::class , 'showStudent'])->name('dashboard.student');
+    Route::get('/dashboard/task' , [AdminController::class , 'taskManagement'])->name('dashboard.task');
     Route::get('/dashboard/{id}', [CourseController::class , 'index'])->name('dashboard');
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
     Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');

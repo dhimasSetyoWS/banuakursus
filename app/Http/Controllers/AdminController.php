@@ -14,7 +14,15 @@ class AdminController extends Controller
     //
     public function showTeacher()
     {
-        return Inertia::render('Dashboard/Page/Teacher/ListTeacher');
+        return Inertia::render('Dashboard/Page/Admin/ListTeacher');
+    }
+    public function showStudent()
+    {
+        return Inertia::render('Dashboard/Page/Admin/ListStudent');
+    }
+    public function taskManagement()
+    {
+        return Inertia::render('Dashboard/Page/Admin/TaskManagement');
     }
 
     public function store(Request $request) {
