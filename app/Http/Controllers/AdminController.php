@@ -39,7 +39,7 @@ class AdminController extends Controller
             'signature' => $signature
         );
 
-        $final_url = AguroozConfig::$agurooz_url . "api/register-api-student"; // buat guru
+        $final_url = AguroozConfig::$agurooz_url . "api/register-api"; // buat guru
 
         $response = Http::post($final_url, $data)->json();
         dd($response);
