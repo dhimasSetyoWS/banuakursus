@@ -39,7 +39,7 @@
                 </div>
         </section>
 
-        <section class="bg-gradient-to-b from-blue-50 via-white to-blue-50 py-20 px-6 md:px-10">
+        <section class="py-20 px-6 md:px-10">
             <div class="max-w-6xl mx-auto text-center">
                 <h2
                     class="text-4xl font-bold text-gray-900 mb-16 relative inline-block after:block after:h-1 after:w-24 after:bg-blue-600 after:mt-4 after:mx-auto">

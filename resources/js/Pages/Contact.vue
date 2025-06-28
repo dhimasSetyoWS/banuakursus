@@ -62,7 +62,7 @@
                 <!-- MAP KECIL -->
                 <div class="mt-10 rounded-xl overflow-hidden shadow">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249.33336083202045!2d119.87686616837372!3d-0.8929629375470803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d8bede79c738a59%3A0x9c1259eeb32451c7!2sToko%20Sumber%20Usaha%2C%20Toko%20ATK!5e0!3m2!1sid!2sid!4v1750214098749!5m2!1sid!2sid"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.333780842144!2d119.87407057501282!3d-0.8929559990983936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d8bedc0398bbf61%3A0x6b38cb63e4e092c!2sTechno%20Celebes!5e0!3m2!1sid!2sid!4v1751111721491!5m2!1sid!2sid"
                         width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
