@@ -9,6 +9,8 @@ use App\Library\Agurooz\AguroozConfig;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Library\Agurooz\AguroozEncryption;
+use Illuminate\Validation\Rules;
+
 class AdminController extends Controller
 {
     //
@@ -24,14 +26,17 @@ class AdminController extends Controller
     {
         return Inertia::render('Dashboard/Page/Admin/TaskManagement');
     }
+    public function article()
+    {
+        return Inertia::render('Dashboard/Page/Admin/Article');
+    }
 
-    public function store(Request $request) {
+    public function store_teacher(Request $request) {
         $username = $request->username;
         $name = $request->name;
         $user_id = $request->id;
         $email = $request->email;
         $password = $request->password;
-
         $secretKey = AguroozConfig::$client_key_front; // Pastikan panjang key 32 karakter
         $secretBackKey = AguroozConfig::$client_key_back;
 
@@ -48,9 +53,7 @@ class AdminController extends Controller
         );
 
         $final_url = AguroozConfig::$agurooz_url . "api/register-api"; // buat guru
-
         $response = Http::post($final_url, $data)->json();
-        dd($response);
         if (!$response['error']) {
             User::create([
                 'name' => $request->name,

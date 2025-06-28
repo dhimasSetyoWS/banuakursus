@@ -3,7 +3,7 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
 </script>
 <template>
     <Layout>
-        <div id="assessment-content">
+        <div id="artikel-content">
             <nav class="text-sm text-slate-500 mb-4">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
@@ -12,28 +12,27 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
                     </li>
                     <li class="flex items-center">
                         <span class="mx-2">/</span>
-                        <span class="text-slate-800 font-medium">Penilaian</span>
+                        <span class="text-slate-800 font-medium">Artikel</span>
                     </li>
                 </ol>
             </nav>
 
-            <h1 class="text-2xl font-bold text-slate-800 mb-6">Daftar Penilaian</h1>
+            <h1 class="text-2xl font-bold text-slate-800 mb-6">Daftar Artikel</h1>
 
             <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
-                <h2 class="text-lg font-semibold text-slate-800 mb-4">Filter Penilaian</h2>
+                <h2 class="text-lg font-semibold text-slate-800 mb-4">Filter Artikel</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                     <div>
-                        <label for="assessment-code" class="block text-sm font-medium text-slate-700 mb-1">Kode
-                            Penilaian</label>
-                        <input type="text" id="assessment-code" name="assessment-code"
-                            placeholder="Masukkan kode penilaian"
+                        <label for="article-code" class="block text-sm font-medium text-slate-700 mb-1">Kode
+                            Artikel</label>
+                        <input type="text" id="article-code" name="article-code" placeholder="Masukkan kode artikel"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                     </div>
                     <div>
-                        <label for="assessment-content" class="block text-sm font-medium text-slate-700 mb-1">Konten
-                            Penilaian</label>
-                        <input type="text" id="assessment-content" name="assessment-content"
-                            placeholder="Masukkan kata kunci konten penilaian"
+                        <label for="article-content" class="block text-sm font-medium text-slate-700 mb-1">Konten
+                            Artikel</label>
+                        <input type="text" id="article-content" name="article-content"
+                            placeholder="Masukkan kata kunci konten artikel"
                             class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                     </div>
                     <div class="md:col-span-2 flex justify-end space-x-3 mt-4 md:mt-0">
@@ -59,19 +58,13 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
                                     NO</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    JUDUL PENILAIAN</th>
+                                    JUDUL ARTIKEL</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    TIPE PENILAIAN</th>
+                                    KODE ARTIKEL</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    KODE PENILAIAN</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    KONTEN PENILAIAN</th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                                    DESKRIPSI PENILAIAN</th>
+                                    KONTEN ARTIKEL</th>
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                                     AKSI</th>
@@ -79,9 +72,9 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-200">
                             <tr>
-                                <td colspan="7"
+                                <td colspan="5"
                                     class="px-6 py-4 whitespace-nowrap text-sm text-slate-500 text-center italic">
-                                    Belum ada penilaian
+                                    Belum ada artikel
                                 </td>
                             </tr>
                         </tbody>

@@ -24,6 +24,12 @@ function toggleModal() {
 }
 const isModal = ref(false);
 
+const submit = () => {
+    form.post(route('register'), {
+        onFinish: () => form.reset('password', 'password_confirmation'),
+    });
+}
+
 </script>
 <template>
     <Layout>

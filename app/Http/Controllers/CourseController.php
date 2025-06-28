@@ -7,7 +7,8 @@ use App\Models\Course;
 use App\Models\CourseModule;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-
+use App\Library\Agurooz\AguroozConfig;
+use Illuminate\Support\Facades\Http;
 class CourseController extends Controller
 {
     /**
@@ -45,6 +46,14 @@ class CourseController extends Controller
             'price' => 'required|integer',
         ]);
 
+        $data = array(
+            'institution_code' => AguroozConfig::$institution_code,
+            'class_name' => "Test 123"
+        );
+
+        $final_url = AguroozConfig::$agurooz_url . "api/lms/classes/create";
+        $response = Http::post($final_url, $data)->json();
+        dd($response);
         $course = Course::create([
             'title_course' => $request->title_course,
             'description' => $request->description,

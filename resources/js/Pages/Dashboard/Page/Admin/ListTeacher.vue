@@ -18,11 +18,19 @@ const form = useForm({
     password_confirmation: '',
 });
 
+const submit = () => {
+    form.post(route('teacher.store'), {
+        onFinish: () => {
+            form.reset()
+        }
+    });
+}
+
 // Toggle Modal
+const isModal = ref(false);
 function toggleModal() {
     isModal.value = !isModal.value
 }
-const isModal = ref(false);
 
 </script>
 <template>
@@ -132,16 +140,16 @@ const isModal = ref(false);
                                 <div>
                                     <InputLabel for="namaguru" value="Nama Guru" />
                                     <TextInput id="namecourse" type="text" class="mt-1 block w-full" required autofocus
-                                        autocomplete="name" v-model="form.nama" />
+                                        autocomplete="name" v-model="form.name" />
                                 </div>
                                 <div class="mt-4">
-                                    <InputLabel for="description" value="Username" />
-                                    <TextInput id="description" type="text" class="mt-1 block w-full" required
+                                    <InputLabel for="username" value="Username" />
+                                    <TextInput id="username" type="text" class="mt-1 block w-full" required
                                         v-model="form.username" />
                                 </div>
                                 <div class="mt-4">
-                                    <InputLabel for="description" value="Email" />
-                                    <TextInput id="description" type="text" class="mt-1 block w-full" required
+                                    <InputLabel for="email" value="Email" />
+                                    <TextInput id="email" type="text" class="mt-1 block w-full" required
                                         v-model="form.email" />
                                 </div>
                                 <div class="mt-4">
@@ -150,8 +158,8 @@ const isModal = ref(false);
                                         v-model="form.password" />
                                 </div>
                                 <div class="mt-4">
-                                    <InputLabel for="confirm_password" value="Confirm Password" />
-                                    <TextInput id="password" type="password" class="mt-1 block w-full" required
+                                    <InputLabel for="password_confirmation" value="Confirm Password" />
+                                    <TextInput id="password_confirmation" type="password" class="mt-1 block w-full" required
                                         v-model="form.password_confirmation" />
                                 </div>
                             </form>
