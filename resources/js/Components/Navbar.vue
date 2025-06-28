@@ -1,124 +1,226 @@
 <template>
-    <header class="bg-white shadow-sm sticky top-0 z-50 fadeIn">
-        <nav class="container mx-auto px-6 py-4 grid grid-cols-2 md:grid-cols-3 items-center">
-            <a :href="route('welcome')" class="ms-5">
-                <img src="/img/banuacourse-icon.png" alt="" width="80">
+    <header class="bg-white/70 backdrop-blur-lg shadow sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a :href="route('welcome')" class="ms-6">
+                <img src="/img/banuacourse-icon.png" alt="Banua Kursus" width="100" />
             </a>
-            <ul class="hidden md:flex items-center space-x-6">
-                <li><Link :href="route('welcome')" class="text-gray-600 hover:text-indigo-600 transition-colors">Beranda</Link></li>
-                <li><Link :href="route('catalog')" class="text-gray-600 hover:text-indigo-600 transition-colors">Katalog Kursus</Link></li>
-                <li><Link :href="route('aboutus')" class="text-gray-600 hover:text-indigo-600 transition-colors">Tentang Kami</Link></li>
-                <li><Link :href="route('contact')" class="text-gray-600 hover:text-indigo-600 transition-colors">Kontak</Link></li>
-            </ul>
 
-            <div v-if="canLogin" class="hidden md:flex items-center justify-end space-x-4">
-                <div v-if="$page.props.auth.user" class="flex gap-3 items-center">
-                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard' , $page.props.auth.user.id)"
-                        class="text-indigo-600 px-4 py-2 rounded-md transition-colors">
-                    Dashboard</Link>
-                    <Link :href="route('mycourse')" v-else
-                        class="text-indigo-600 px-4 py-2 rounded-md transition-colors">
-                    My Course</Link>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-12 text-lg font-medium">
+                <ul class="flex items-center space-x-10">
+                    <li>
+                        <Link :href="route('welcome')" class="nav-link">Beranda</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('catalog')" class="nav-link">Katalog Kursus</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('aboutus')" class="nav-link">Tentang Kami</Link>
+                    </li>
+                    <li>
+                        <Link :href="route('contact')" class="nav-link">Kontak</Link>
+                    </li>
+                </ul>
 
-                    <div class="relative inline-block">
-                        <a href="#" @click="dropdownToggle"
-                            class="flex items-center space-x-2 rounded p-2 hover:bg-slate-100">
-                            <img src="https://i.pravatar.cc/150?img=5" alt="Admin" class="w-9 h-9 rounded-full">
-                        </a>
-                        <!-- Dropdown -->
-                        <div :class="{ 'hidden': !dropdown }"
-                            class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden dropdown"
-                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="py-1" role="none">
-                                <Link :href="route('profile.edit')"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-100" role="menuitem"
-                                    tabindex="-1" id="menu-item-0">Account settings</Link>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-100"
-                                    role="menuitem" tabindex="-1" id="menu-item-1">Support</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-slate-100"
-                                    role="menuitem" tabindex="-1" id="menu-item-2">License</a>
-                                <Link :href="route('logout')" method="post"
-                                    class="block w-full px-4 py-2 text-left text-sm text-red-700 hover:bg-slate-100"
-                                    role="menuitem" tabindex="-1" id="menu-item-3">Sign out</Link>
-                            </div>
+                <!-- Auth Buttons -->
+                <div v-if="canLogin" class="flex items-center space-x-4 ml-10">
+                    <template v-if="$page.props.auth.user">
+                        <!-- Profile Dropdown -->
+                        <div class="relative">
+                            <button @click="dropdownToggle" class="flex items-center space-x-2 focus:outline-none">
+                                <img src="https://i.pravatar.cc/150?img=5" alt="Admin"
+                                    class="w-10 h-10 rounded-full border-2 border-gray-300">
+                            </button>
+                            <transition name="fade">
+                                <div v-if="dropdown"
+                                    class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                                    <!-- Dashboard -->
+                                    <Link v-if="$page.props.auth.user.role_id != 4"
+                                        :href="route('dashboard', $page.props.auth.user.id)"
+                                        class="block px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                    Dashboard
+                                    </Link>
+                                    <!-- Account Settings -->
+                                    <Link :href="route('profile.edit')"
+                                        class="block px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                    Account Settings
+                                    </Link>
+                                    <!-- Support -->
+                                    <a href="#" class="block px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                        Support
+                                    </a>
+                                    <!-- Sign Out -->
+                                    <Link :href="route('logout')" method="post"
+                                        class="block px-4 py-3 text-red-600 hover:bg-gray-100">
+                                    Sign out
+                                    </Link>
+                                </div>
+                            </transition>
                         </div>
-                    </div>
-                </div>
-                <div v-else>
-                    <div v-if="$page.props.auth.user">
-                        <Link v-if="canRegister" :href="route('profile.edit')"
-                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                        Profile</Link>
-                    </div>
-                    <div v-else>
-                        <Link :href="route('login')" class="text-gray-600 px-4 py-2 rounded-md">Masuk</Link>
+                    </template>
+
+                    <template v-else>
+                        <Link :href="route('login')"
+                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                        Masuk
+                        </Link>
                         <Link v-if="canRegister" :href="route('register')"
-                            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">Daftar</Link>
-                    </div>
+                            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Daftar
+                        </Link>
+                    </template>
                 </div>
             </div>
-            <!-- Mobile Nav Button -->
-            <div class="md:hidden flex justify-end">
-                <button @click="toggleMobile" id="mobile-menu-button">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button @click="toggleMobile"
+                    class="relative w-8 h-8 flex flex-col justify-center items-center space-y-1 focus:outline-none">
+                    <!-- Bar 1 -->
+                    <span :class="[
+                        'block h-1 w-8 bg-gray-700 rounded-full transform transition-all duration-300 ease-in-out',
+                        isMobile ? 'rotate-45 translate-y-2' : ''
+                    ]"></span>
+
+                    <!-- Bar 2 -->
+                    <span :class="[
+                        'block h-1 w-8 bg-gray-700 rounded-full transform transition-all duration-300 ease-in-out',
+                        isMobile ? 'opacity-0' : ''
+                    ]"></span>
+
+                    <!-- Bar 3 -->
+                    <span :class="[
+                        'block h-1 w-8 bg-gray-700 rounded-full transform transition-all duration-300 ease-in-out',
+                        isMobile ? '-rotate-45 -translate-y-2' : ''
+                    ]"></span>
                 </button>
             </div>
+
         </nav>
-        <div id="mobile-menu" class="md:hidden px-6 pt-2 pb-4" :class="{ 'hidden': !isMobile }">
-            <Link :href="route('welcome')" class="block py-2 text-gray-600 hover:text-indigo-600">Beranda</Link>
-            <Link :href="route('catalog')" class="block py-2 text-gray-600 hover:text-indigo-600">Katalog Kursus</Link>
-            <Link :href="route('aboutus')" class="block py-2 text-gray-600 hover:text-indigo-600">Tentang Kami</Link>
-            <Link :href="route('contact')" class="block py-2 text-gray-600 hover:text-indigo-600">Kontak</Link>
-            <div v-if="canLogin" class="mt-4 pt-4 border-t border-gray-200">
-                <div v-if="$page.props.auth.user">
-                    <Link v-if="$page.props.auth.user.role_id != 4" :href="route('dashboard' , $page.props.auth.user.id)"
-                        class="block w-full text-center py-2 text-gray-600 hover:text-indigo-600">Dashboard</Link>
-                    <Link v-else :href="route('profile.edit')"
-                        class="block w-full text-center py-2 text-gray-600 hover:text-indigo-600">Profile</Link>
-                    <Link :href="route('logout')" method="post"
-                        class="block w-full text-center py-2 text-red-600 hover:text-red-800">Keluar</Link>
+
+        <!-- Mobile Menu -->
+        <transition name="slide">
+            <div v-if="isMobile"
+                class="md:hidden bg-gradient-to-br from-white to-gray-100 px-8 pt-6 pb-10 space-y-6 shadow-2xl rounded-b-2xl">
+                <!-- Navigation Links -->
+                <div class="flex flex-col space-y-6 text-lg font-semibold">
+                    <Link :href="route('welcome')" class="flex items-center text-gray-700 hover:text-indigo-600"
+                        @click="toggleMobile">
+                    Beranda
+                    </Link>
+                    <Link :href="route('catalog')" class="flex items-center text-gray-700 hover:text-indigo-600"
+                        @click="toggleMobile">
+                    Katalog Kursus
+                    </Link>
+                    <Link :href="route('aboutus')" class="flex items-center text-gray-700 hover:text-indigo-600"
+                        @click="toggleMobile">
+                    Tentang Kami
+                    </Link>
+                    <Link :href="route('contact')" class="flex items-center text-gray-700 hover:text-indigo-600"
+                        @click="toggleMobile">
+                    Kontak
+                    </Link>
                 </div>
 
-                <div v-else>
-                    <Link v-if="canRegister" :href="route('register')"
-                        class="block w-full text-center mt-2 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                    Daftar</Link>
-                    <Link :href="route('login')"
-                        class="block w-full text-center mt-2 text-gray-600 px-4 py-2 rounded-md">Masuk</Link>
+                <!-- Auth Buttons -->
+                <div v-if="canLogin" class="mt-8 pt-6 border-t border-gray-300 space-y-4">
+                    <template v-if="$page.props.auth.user">
+                        <Link v-if="$page.props.auth.user.role_id != 4"
+                            :href="route('dashboard', $page.props.auth.user.id)"
+                            class="block text-gray-700 hover:text-indigo-600 text-lg font-medium" @click="toggleMobile">
+                        Dashboard</Link>
+                        <Link :href="route('logout')" method="post"
+                            class="block text-red-600 hover:text-red-800 text-lg font-medium" @click="toggleMobile">
+                        Keluar</Link>
+                    </template>
+
+                    <template v-else>
+                        <Link :href="route('login')"
+                            class="block text-gray-700 hover:text-indigo-600 text-lg font-medium" @click="toggleMobile">
+                        Masuk</Link>
+                        <Link v-if="canRegister" :href="route('register')"
+                            class="block bg-indigo-600 text-white text-center py-3 rounded-lg hover:bg-indigo-700 transition"
+                            @click="toggleMobile">
+                        Daftar
+                        </Link>
+                    </template>
                 </div>
             </div>
-        </div>
-    </header>
+        </transition>
 
+    </header>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
 
 const dropdown = ref(false)
-const isMobile = ref(false);
+const isMobile = ref(false)
 
 function toggleMobile() {
     isMobile.value = !isMobile.value
 }
 
-const props = defineProps({
-    canLogin: {
-        type: Boolean,
-    },
-    canRegister: {
-        type: Boolean,
-    }
-});
-
 function dropdownToggle() {
     dropdown.value = !dropdown.value
-    console.log('toggle')
 }
+
+const props = defineProps({
+    canLogin: Boolean,
+    canRegister: Boolean
+})
 </script>
 
-<style></style>
+<style scoped>
+/* Hover underline sliding effect */
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: 0;
+    background-color: #4f46e5;
+    transition: width 0.3s;
+}
+
+.nav-link:hover {
+    color: #4f46e5;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Fade Dropdown Animation */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/* Mobile Menu Slide from Top */
+.slide-enter-active,
+.slide-leave-active {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+    max-height: 0;
+    opacity: 0;
+}
+</style>
