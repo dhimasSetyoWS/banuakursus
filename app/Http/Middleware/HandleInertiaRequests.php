@@ -37,6 +37,7 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'message' => session('message'),
                 'delete' => session('delete'),
+                'error' => session('error'),
             ]
         ];
     }

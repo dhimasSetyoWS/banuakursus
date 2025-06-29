@@ -28,7 +28,9 @@ Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->grou
     Route::get('/dashboard/teacher' , [AdminController::class , 'showTeacher'])->name('dashboard.teacher');
     Route::get('/dashboard/student' , [AdminController::class , 'showStudent'])->name('dashboard.student');
     Route::get('/dashboard/task' , [AdminController::class , 'taskManagement'])->name('dashboard.task');
+    Route::get('/dashboard/task/create' , [AdminController::class , 'taskCreate'])->name('task.create');
     Route::get('/dashboard/article' , [AdminController::class , 'article'])->name('dashboard.artikel');
+    Route::get('/dashboard/article/create' , [AdminController::class , 'articleCreate'])->name('artikel.create');
     Route::get('/dashboard/{id}', [CourseController::class , 'index'])->name('dashboard');
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
     Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');

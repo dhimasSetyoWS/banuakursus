@@ -40,10 +40,10 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
                             class="px-5 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                             <i class="fas fa-search mr-2"></i>Cari
                         </button>
-                        <button
+                        <Link :href="route('artikel.create')"
                             class="px-5 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                             <i class="fas fa-plus mr-2"></i>Tambah Baru
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

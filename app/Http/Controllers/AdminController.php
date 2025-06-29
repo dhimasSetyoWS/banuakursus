@@ -26,10 +26,19 @@ class AdminController extends Controller
     {
         return Inertia::render('Dashboard/Page/Admin/TaskManagement');
     }
+    public function taskCreate()
+    {
+        return Inertia::render('Dashboard/Page/Article/AddTask');
+    }
     public function article()
     {
         return Inertia::render('Dashboard/Page/Admin/Article');
     }
+    public function articleCreate()
+    {
+        return Inertia::render('Dashboard/Page/Article/AddArticle');
+    }
+
 
     public function store_teacher(Request $request) {
         $username = $request->username;
@@ -40,7 +49,7 @@ class AdminController extends Controller
         $secretKey = AguroozConfig::$client_key_front; // Pastikan panjang key 32 karakter
         $secretBackKey = AguroozConfig::$client_key_back;
 
-        $data = ['name' => $name, 'password' => $password, "email" => $email, "username" => $username . "@" . AguroozConfig::$institution_code, "institution_code" => AguroozConfig::$institution_code];
+        $data = ['name' => $name, 'password' => $password, "email" => $email, "username" => $username, "institution_code" => AguroozConfig::$institution_code];
 
         // Agurooz
         $encrypted = AguroozEncryption::encryptData($data, $secretKey);
@@ -62,6 +71,7 @@ class AdminController extends Controller
                 'password' => Hash::make($request->password),
                 'role_id' => 3,
             ]);
+            $this->showTeacher();
         } else {
             return redirect()->back()->with('error' , 'Ada Error | Silahkan Contact Agurooz.');
         }
