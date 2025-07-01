@@ -1,22 +1,25 @@
 <script setup>
 import Layout from "@/Pages/Dashboard/Layouts/Admin.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm, router } from "@inertiajs/vue3"
 defineProps({
     courses : {
         type : Array
+    },
+    periods : {
+        type : Array
     }
 })
 
 const formatted = ref("Rp 0,00")
-
 const isModal = ref(false);
 const form = useForm({
     title_course: '',
     description: '',
     price: '',
+    period_id: ''
 });
 // Format to currency
 
@@ -191,8 +194,8 @@ function editCourse(id) {
         </div>
     </Layout>
     <!-- Modal -->
-    <div v-if="isModal" class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
-    <div v-if="isModal" id="modal" class="fixed inset-0 z-10 w-screen overflow-y-auto">
+    <div v-if="isModal" class="fixed inset-0 bg-gray-500/75 fadeIn" aria-hidden="true"></div>
+    <div v-if="isModal" id="modal" class="fixed inset-0 z-10 w-screen overflow-y-auto fadeIn">
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div
                 class="relative transform overflow-hidden rounded-lg bg-white text-center shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
@@ -212,6 +215,13 @@ function editCourse(id) {
                                     <InputLabel for="description" value="Deskripsi" />
                                     <TextInput id="description" type="text" class="mt-1 block w-full" required
                                         v-model="form.description" />
+                                </div>
+                                <div class="mt-4">
+                                    <InputLabel for="price" value="Periode Akademik" />
+                                    <select v-model="form.period" id="period_academic" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-600">
+                                        <option value="" selected disabled>--Pilih Periode Akademik--</option>
+                                        <option v-for="period in periods" :key="period" :value="period.period_id" class="">{{ period.period_name }}</option>
+                                    </select>
                                 </div>
                                 <div class="mt-4">
                                     <InputLabel for="price" value="Harga" />

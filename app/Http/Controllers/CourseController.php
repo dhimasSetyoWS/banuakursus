@@ -8,6 +8,7 @@ use App\Models\CourseModule;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Library\Agurooz\AguroozConfig;
+use App\Models\Period;
 use Illuminate\Support\Facades\Http;
 class CourseController extends Controller
 {
@@ -73,7 +74,8 @@ class CourseController extends Controller
         sleep(1);
         $courses = Course::where('user_id', $id)->get(['course_id', 'title_course', 'description', 'price']);
         return Inertia::render('Dashboard/Page/ManageCourse', [
-            'courses' => $courses
+            'courses' => $courses,
+            'periods' => Period::all(),
         ])->with('message' , 'Course berhasil di buat');
     }
 

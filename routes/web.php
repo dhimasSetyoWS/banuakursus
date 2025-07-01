@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,11 +28,17 @@ Route::controller(ViewController::class)->group(function () {
 Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->group(function () {
     Route::get('/dashboard/teacher' , [AdminController::class , 'showTeacher'])->name('dashboard.teacher');
     Route::get('/dashboard/student' , [AdminController::class , 'showStudent'])->name('dashboard.student');
-    Route::get('/dashboard/task' , [AdminController::class , 'taskManagement'])->name('dashboard.task');
-    Route::get('/dashboard/task/create' , [AdminController::class , 'taskCreate'])->name('task.create');
+    // Task
+    Route::get('/dashboard/task' , [AdminController::class , 'task'])->name('dashboard.task');
+    Route::post('/dashboard/task' , [AdminController::class , 'task_store'])->name('task.store');
+    Route::get('/dashboard/task/create' , [AdminController::class , 'task_create'])->name('task.create');
+    // Artikel
     Route::get('/dashboard/article' , [AdminController::class , 'article'])->name('dashboard.artikel');
-    Route::get('/dashboard/article/create' , [AdminController::class , 'articleCreate'])->name('artikel.create');
+    Route::post('/dashboard/article' , [ArticleController::class , 'store'])->name('artikel.store'); // post article
+    Route::get('/dashboard/article/create' , [AdminController::class , 'article_create'])->name('artikel.create');
+    // Dashboard
     Route::get('/dashboard/{id}', [CourseController::class , 'index'])->name('dashboard');
+    // Manage Course
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
     Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');
 });

@@ -7,12 +7,13 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
             <nav class="text-sm text-slate-500 mb-4">
                 <ol class="list-none p-0 inline-flex">
                     <li class="flex items-center">
-                        <Link :href="route('dashboard', $page.props.auth.user.id)" class="text-indigo-600 hover:text-indigo-800"> <i
-                                class="fas fa-home mr-1"></i>Beranda </Link>
+                        <Link :href="route('dashboard', $page.props.auth.user.id)"
+                            class="text-indigo-600 hover:text-indigo-800"> <i class="fas fa-home mr-1"></i>Beranda
+                        </Link>
                     </li>
                     <li class="flex items-center">
                         <span class="mx-2">/</span>
-                        <span class="text-slate-800 font-medium">Penilaian</span>
+                        <span class="text-slate-800 font-medium">Tugas</span>
                     </li>
                 </ol>
             </nav>
@@ -41,10 +42,10 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
                             class="px-5 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                             <i class="fas fa-search mr-2"></i>Cari
                         </button>
-                        <button
+                        <Link :href="route('task.create')"
                             class="px-5 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                            <i class="fas fa-plus mr-2"></i>Tambah Baru
-                        </button>
+                        <i class="fas fa-plus mr-2"></i>Tambah Baru
+                        </Link>
                     </div>
                 </div>
             </div>

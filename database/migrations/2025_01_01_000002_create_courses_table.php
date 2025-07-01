@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('price');
             $table->foreignId('user_id')->constrained('users' , 'id')->onDelete('cascade');
+            $table->foreignId('period_id')->constrained('periods' , 'period_id')->onDelete('cascade');
             $table->timestamps();
         });
     }

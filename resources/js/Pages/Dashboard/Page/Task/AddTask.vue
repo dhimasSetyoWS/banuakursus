@@ -4,14 +4,14 @@ import Layout from "@/Pages/Dashboard/Layouts/Admin.vue"
 import { useForm } from "@inertiajs/vue3";
 
 
-const artikel = useForm({
+const assesment = useForm({
     title: '',
     content: '',
     subject: ""
 });
 
 const submit = () => {
-    artikel.post(route('artikel.store'))
+    assesment.post(route('task.store'))
 }
 
 </script>
@@ -25,7 +25,7 @@ const submit = () => {
                 </li>
                 <li class="flex items-center">
                     <span class="mx-2">/</span>
-                    <Link :href="route('dashboard.artikel')" class="text-indigo-600 hover:text-indigo-800">Artikel
+                    <Link :href="route('dashboard.task')" class="text-indigo-600 hover:text-indigo-800">Assesment
                     </Link>
                 </li>
                 <li class="flex items-center">
@@ -36,35 +36,33 @@ const submit = () => {
         </nav>
 
         <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
-            <h2 class="text-lg font-semibold text-slate-800 mb-4">Tambah Artikel</h2>
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Tambah assesment</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-6">
                 <div>
-                    <label for="article-code" class="block text-sm font-medium text-slate-700 mb-1">Judul
-                        Artikel</label>
-                    <input type="text" id="article-code" v-model="artikel.title" placeholder="Masukkan judul artikel"
+                    <label for="article-code" class="block text-sm font-medium text-slate-700 mb-1">Assesment Title</label>
+                    <input type="text" id="article-code" v-model="assesment.title" placeholder="Masukkan judul assesment"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
                 </div>
                 <div>
-                    <label for="article-content" class="block text-sm font-medium text-slate-700 mb-1">Subject
-                        Artikel</label>
-                    <select v-model="artikel.subject" name="mata_pelajaran w-full" id="mata-pelajaran-select"
+                    <label for="article-content" class="block text-sm font-medium text-slate-700 mb-1">Assesment
+                        Type</label>
+                    <select v-model="assesment.subject" name="mata_pelajaran w-full" id="mata-pelajaran-select"
                         class="mt-1 block w-full px-3 py-2 border border-slate-300 rounded-md shadow-sm">
-                        <option value="" disabled selected>-- Pilih Mata Pelajaran --</option>
-                        <option value="matematika">Matematika</option>
-                        <option value="bahasa_indonesia">Bahasa Indonesia</option>
-                        <option value="bahasa_inggris">Bahasa Inggris</option>
-                        <option value="fisika">Fisika</option>
-                        <option value="kimia">Kimia</option>
-                        <option value="biologi">Biologi</option>
-                        <option value="sejarah">Sejarah</option>
-                        <option value="geografi">Geografi</option>
-                        <option value="ekonomi">Ekonomi</option>
-                        <option value="seni_budaya">Seni Budaya</option>
+                        <option value="" disabled selected>-- Pilih Tipe Tugas --</option>
+                        <option value="exam">Exam</option>
+                        <option value="assignment">Assignment</option>
+                        <option value="participation">Participation</option>
+                        <option value="project">Project</option>
+                        <option value="presentation">Presentation</option>
+                        <option value="writing">Writing</option>
+                        <option value="performance_assesment">Performance Assesment and Simulation</option>
+                        <option value="additional_activites">Additional Activities</option>
+                        <option value="creativity">Creativity and Media</option>
+                        <option value="internship">Internship and Practice</option>
                     </select>
                 </div>
             </div>
-            <label for="article-content" class="block text-sm font-medium text-slate-700 mb-1">Konten Artikel</label>
-            <QuillEditor v-model:content="artikel.content" toolbar="full" style="height: 200px;" contentType="html">
+            <QuillEditor v-model:content="assesment.content" toolbar="full" style="height: 200px;" contentType="html">
             </QuillEditor>
             <div class="flex justify-end mt-4">
                 <button @click="submit"

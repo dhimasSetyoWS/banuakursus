@@ -22,19 +22,19 @@ class AdminController extends Controller
     {
         return Inertia::render('Dashboard/Page/Admin/ListStudent');
     }
-    public function taskManagement()
+    public function task()
     {
-        return Inertia::render('Dashboard/Page/Admin/TaskManagement');
+        return Inertia::render('Dashboard/Page/Admin/Task');
     }
-    public function taskCreate()
+    public function task_create()
     {
-        return Inertia::render('Dashboard/Page/Article/AddTask');
+        return Inertia::render('Dashboard/Page/Task/AddTask');
     }
     public function article()
     {
         return Inertia::render('Dashboard/Page/Admin/Article');
     }
-    public function articleCreate()
+    public function article_create()
     {
         return Inertia::render('Dashboard/Page/Article/AddArticle');
     }

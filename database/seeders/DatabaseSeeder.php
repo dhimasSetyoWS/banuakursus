@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Period;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -38,6 +39,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
             'role_id' => 1,
             'agurooz_id' => 1,
+        ]);
+        // Seeder untuk buat period academic
+        Period::create([
+            'period_name' => "2024/2025 Even"
+        ]);
+        Period::create([
+            'period_name' => "2025/2026 Odd"
         ]);
     }
 }

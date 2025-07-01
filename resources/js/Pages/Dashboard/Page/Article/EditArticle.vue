@@ -5,9 +5,9 @@ import { useForm } from "@inertiajs/vue3";
 
 
 const artikel = useForm({
-    title: '',
-    content: '',
-    subject: ""
+    title : '',
+    content : '',
+    subject : ""
 });
 
 const submit = () => {
@@ -30,13 +30,13 @@ const submit = () => {
                 </li>
                 <li class="flex items-center">
                     <span class="mx-2">/</span>
-                    <span class="text-slate-800 font-medium">Tambah</span>
+                    <span class="text-slate-800 font-medium">Edit</span>
                 </li>
             </ol>
         </nav>
 
         <div class="bg-white p-6 rounded-lg shadow-sm mb-6">
-            <h2 class="text-lg font-semibold text-slate-800 mb-4">Tambah Artikel</h2>
+            <h2 class="text-lg font-semibold text-slate-800 mb-4">Edit Artikel</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end mb-6">
                 <div>
                     <label for="article-code" class="block text-sm font-medium text-slate-700 mb-1">Judul
@@ -63,12 +63,9 @@ const submit = () => {
                     </select>
                 </div>
             </div>
-            <label for="article-content" class="block text-sm font-medium text-slate-700 mb-1">Konten Artikel</label>
-            <QuillEditor v-model:content="artikel.content" toolbar="full" style="height: 200px;" contentType="html">
-            </QuillEditor>
+            <QuillEditor v-model:content="artikel.content" toolbar="full" style="height: 200px;" contentType="html"></QuillEditor>
             <div class="flex justify-end mt-4">
-                <button @click="submit"
-                    class="px-5 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Submit</button>
+                <button @click="submit" class="px-5 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Submit</button>
             </div>
         </div>
     </Layout>
