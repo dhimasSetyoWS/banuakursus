@@ -4,12 +4,13 @@ import { onMounted, ref } from "vue";
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { useForm, router } from "@inertiajs/vue3"
-defineProps({
-    courses : {
-        type : Array
+
+const props = defineProps({
+    courses: {
+        type: Array
     },
-    periods : {
-        type : Array
+    periods: {
+        type: Array
     }
 })
 
@@ -41,25 +42,34 @@ function toggleModal() {
 
 // Submit course
 const submit = async () => {
-    const a = await form.post(route('course.store'), {
-        onSuccess : () => {
+    form.post(route('course.store'), {
+        onSuccess: () => {
+            Swal.fire({
+                title: "Success!",
+                text: "Kursus Berhasil Dibuat!",
+                icon: "success"
+            });
             form.reset()
             formatter.value = "Rp 0,00"
         }
     });
     setTimeout(function () {
         isModal.value = false
-    } , 2000)
+    }, 2000)
 };
 
+function getPeriodName(id) {
+    const index = props.periods.findIndex((period) => period.period_id === id);
+    return props.periods[index].period_name
+}
 
 // Delete course
 function deleteCourse(id) {
-    router.delete(route('course.destroy' , id)); // delete course
+    router.delete(route('course.destroy', id)); // delete course
 }
 
 function editCourse(id) {
-    router.get(route('dashboard.edit' , id));
+    router.get(route('dashboard.edit', id));
 }
 </script>
 <template>
@@ -110,6 +120,7 @@ function editCourse(id) {
                     <thead class="bg-slate-50 text-slate-600">
                         <tr>
                             <th class="p-3 font-medium">Nama Kursus</th>
+                            <th class="p-3 font-medium">Periode Akademik</th>
                             <th class="p-3 font-medium">Deskripsi</th>
                             <th class="p-3 font-medium">Harga</th>
                             <!-- <th class="p-3 font-medium">Jumlah Siswa</th> -->
@@ -130,10 +141,15 @@ function editCourse(id) {
                                     <span class="font-semibold">{{ data.title_course }}</span>
                                 </div>
                             </td>
+                            <td class="p-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-semibold">{{ getPeriodName(data.period_id) }}</span>
+                                </div>
+                            </td>
                             <!-- Desc -->
-                            <td class="p-3">{{data.description}}</td>
+                            <td class="p-3" v-html="data.description"></td>
                             <!-- Price -->
-                            <td class="p-3">{{formatter.format(data.price)}}</td>
+                            <td class="p-3">{{ formatter.format(data.price) }}</td>
                             <!-- Action -->
                             <td class="p-3">
                                 <div class="flex items-center justify-center gap-2">
@@ -198,38 +214,45 @@ function editCourse(id) {
     <div v-if="isModal" id="modal" class="fixed inset-0 z-10 w-screen overflow-y-auto fadeIn">
         <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <div
-                class="relative transform overflow-hidden rounded-lg bg-white text-center shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                class="relative transform overflow-hidden rounded-lg bg-white text-center shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-4xl">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4">
                         <div class="headModal w-full border-b mb-3 pb-3">
                             <h3 class="font-semibold text-gray-900" id="dialog-title">Tambah Kursus</h3>
                         </div>
                         <div class="bodyModal text-start">
-                            <form @submit.prevent="submit">
-                                <div>
-                                    <InputLabel for="namecourse" value="Nama Course" />
-                                    <TextInput id="namecourse" type="text" class="mt-1 block w-full" required autofocus
-                                        autocomplete="name" v-model="form.title_course" />
+                            <form @submit.prevent="submit" class="sm:grid grid-cols-4 gap-3">
+                                <div class="col-span-2">
+                                    <div>
+                                        <InputLabel for="namecourse" value="Nama Course" />
+                                        <TextInput id="namecourse" type="text" class="mt-1 block w-full" required
+                                            autofocus autocomplete="name" v-model="form.title_course" />
+                                    </div>
+                                    <div class="mt-4">
+                                        <InputLabel for="description" value="Deskripsi" />
+                                        <QuillEditor v-model:content="form.description" toolbar="minimal"
+                                            style="height: 100px;" contentType="html">
+                                        </QuillEditor>
+                                    </div>
                                 </div>
-                                <div class="mt-4">
-                                    <InputLabel for="description" value="Deskripsi" />
-                                    <TextInput id="description" type="text" class="mt-1 block w-full" required
-                                        v-model="form.description" />
-                                </div>
-                                <div class="mt-4">
-                                    <InputLabel for="price" value="Periode Akademik" />
-                                    <select v-model="form.period" id="period_academic" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-600">
-                                        <option value="" selected disabled>--Pilih Periode Akademik--</option>
-                                        <option v-for="period in periods" :key="period" :value="period.period_id" class="">{{ period.period_name }}</option>
-                                    </select>
-                                </div>
-                                <div class="mt-4">
-                                    <InputLabel for="price" value="Harga" />
-                                    <input @input="formatPrice" type="number" id="price"
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                        required v-model="form.price">
-                                    <small class="text-gray-600">Format dalam Currency</small>
-                                    <p class="text-lg ms-2 ps-3 mt-2 text-gray-600 border-s">{{ formatted }}</p>
+                                <div class="col-span-2">
+                                    <div class="mt-4">
+                                        <InputLabel for="price" value="Periode Akademik" />
+                                        <select v-model="form.period_id" id="period_academic"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-gray-600">
+                                            <option value="" selected disabled>--Pilih Periode Akademik--</option>
+                                            <option v-for="period in periods" :key="period" :value="period.period_id"
+                                                class="">{{ period.period_name }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4">
+                                        <InputLabel for="price" value="Harga" />
+                                        <input @input="formatPrice" type="number" id="price"
+                                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                            required v-model="form.price">
+                                        <small class="text-gray-600">Format dalam Currency</small>
+                                        <p class="text-lg ms-2 ps-3 mt-2 text-gray-600 border-s">{{ formatted }}</p>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -246,6 +269,4 @@ function editCourse(id) {
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

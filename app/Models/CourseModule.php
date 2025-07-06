@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class CourseModule extends Model
 {
     //
-    protected $fillable = ['module_name' , 'module_link' , 'course_id'];
+    protected $fillable = ['module_name' , 'description' , 'course_id'];
     public $timestamps = false;
 }

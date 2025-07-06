@@ -45,6 +45,7 @@ class CourseController extends Controller
             'title_course' => 'required|string|max:255|unique:' . Course::class,
             'description' => 'required|string',
             'price' => 'required|integer',
+            'period_id' => 'required|integer',
         ]);
 
         $data = array(
@@ -53,13 +54,13 @@ class CourseController extends Controller
         );
 
         $final_url = AguroozConfig::$agurooz_url . "api/lms/classes/create";
-        $response = Http::post($final_url, $data)->json();
-        dd($response);
+        $response = Http::post($final_url, $data);
         $course = Course::create([
             'title_course' => $request->title_course,
             'description' => $request->description,
             'price' => $request->price,
             'user_id' => Auth::user()->id,
+            'period_id' => $request->period_id,
         ]);
         // refresh kembali halaman
         return redirect()->route('dashboard.manage' , Auth::user()->id)->with('message' , 'Success tambah data');
@@ -72,7 +73,7 @@ class CourseController extends Controller
     {
         //
         sleep(1);
-        $courses = Course::where('user_id', $id)->get(['course_id', 'title_course', 'description', 'price']);
+        $courses = Course::where('user_id', $id)->get(['course_id', 'title_course', 'description', 'price', 'period_id']);
         return Inertia::render('Dashboard/Page/ManageCourse', [
             'courses' => $courses,
             'periods' => Period::all(),

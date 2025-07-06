@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('course_modules', function (Blueprint $table) {
             $table->id('module_id');
             $table->string('module_name', 80);
-            $table->string('module_link');
+            $table->text('description');
             $table->foreignId('course_id')->constrained('courses', 'course_id')->onDelete('cascade');
         });
     }

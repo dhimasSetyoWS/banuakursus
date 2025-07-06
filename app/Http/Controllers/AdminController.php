@@ -16,11 +16,15 @@ class AdminController extends Controller
     //
     public function showTeacher()
     {
-        return Inertia::render('Dashboard/Page/Admin/ListTeacher');
+        return Inertia::render('Dashboard/Page/Admin/ListTeacher' , [
+            'teachers' => User::where('role_id' , 3)->get()
+        ]);
     }
     public function showStudent()
     {
-        return Inertia::render('Dashboard/Page/Admin/ListStudent');
+        return Inertia::render('Dashboard/Page/Admin/ListStudent', [
+            'students' => User::where('role_id' , 4)->get()
+        ]);
     }
     public function task()
     {
@@ -75,5 +79,24 @@ class AdminController extends Controller
         } else {
             return redirect()->back()->with('error' , 'Ada Error | Silahkan Contact Agurooz.');
         }
+    }
+
+    public function store_student(Request $request) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'username' => 'required|string|max:255|unique:' . User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'role_id' => 4,
+        ]);
+
+        return redirect()->route('dashboard.student')->with('message' , 'Siswa Berhasil Di Tambahkan');
     }
 }

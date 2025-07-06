@@ -56,7 +56,6 @@ class AuthenticatedSessionController extends Controller
         $response = json_decode($response, false);
 
         if (!$response->status_app) { //cek jika error
-            dd($response);
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

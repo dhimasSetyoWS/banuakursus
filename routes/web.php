@@ -9,6 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UserController;
 use App\Models\Course;
 use App\Http\Controllers\ViewController;
 
@@ -41,11 +42,13 @@ Route::middleware(['auth' , 'verified' , 'role:superadmin,admin,teacher'])->grou
     // Manage Course
     Route::get('/dashboard/manage-course/{id}' , [CourseController::class , 'show'])->name('dashboard.manage');
     Route::get('/dashboard/manage-course/edit/{id}' , [CourseController::class , 'edit'])->name('dashboard.edit');
+    Route::delete('/admin/student_destroy/{id}' , [UserController::class , 'delete'])->name('user.destroy');
 });
 
 // Create Data
 Route::middleware(['auth' , 'verified' , 'role:superadmin,admin'])->group(function () {
     Route::post('/admin/store_teacher' , [AdminController::class , 'store_teacher'])->name('teacher.store');
+    Route::post('/admin/store_student' , [AdminController::class, 'store_student'])->name('student.store');
 });
 // Profile Setting
 Route::middleware('auth')->group(function () {

@@ -42,14 +42,14 @@ function updateCourse() {
 // Modul section
 const module = useForm({
     module_name: "",
-    module_link: "",
+    description: "",
     course_id: props.course.course_id
 });
 
 // Edit per module
 const editedmodule = useForm({
     module_name: "",
-    module_link: "",
+    description: "",
 });
 const editedModuleId = ref(0);
 //  cari index modul, kemudian ganti value dari edited module menjadi module yng di dapat
@@ -60,7 +60,7 @@ function getModule(id) {
     editedModuleId.value = foundModule.module_id; // setid yang akan di ubah
     // set value berdasarkan id yang di dapat
     editedmodule.module_name = foundModule.module_name;
-    editedmodule.module_link = foundModule.module_link;
+    editedmodule.description = foundModule.description;
 }
 
 const addModule = () => {
@@ -100,8 +100,8 @@ function editModule(id) {
 // delete module secara spesifik
 function deleteModule(id) {
     console.log(id);
-    router.delete(route('module.delete' , id), {
-        onSuccess : () => {
+    router.delete(route('module.delete', id), {
+        onSuccess: () => {
             location.reload();
         }
     });
@@ -143,8 +143,9 @@ function offModal() {
                         </div>
                         <div class="flex flex-col mb-5">
                             <label for="desc">Deskripsi Kursus</label>
-                            <input id="desc" type="text" v-model="form.description"
-                                class="rounded border border-gray-400" autocomplete="off">
+                            <QuillEditor v-model:content="form.description" toolbar="minimal" style="height: 100px;"
+                                contentType="html">
+                            </QuillEditor>
                         </div>
                         <div class="flex flex-col mb-5">
                             <label for="price">Harga Kursus</label>
@@ -180,22 +181,23 @@ function offModal() {
                         <div v-for="a in listofModule" :key="a"
                             class="modul-card px-2 py-4 bg-indigo-300 text-white rounded flex flex-col relative">
                             <div class="titleModule mb-3">
-                                <p>Nama Session : </p>
+                                <p>Nama Sesi : </p>
                                 <p class="ps-3 border-s">{{ a.module_name }}</p>
                             </div>
                             <div class="body">
-                                <p>Link Video Session : </p>
-                                <a class="ps-3 border-s underline text-black" :href="'https://' + a.module_link"
-                                    target="_blank">{{ a.module_link }}</a>
+                                <p>Deskripsi Sesi : </p>
+                                <div v-html="a.description" class="ps-3 border-s text-black" target="_blank"></div>
                             </div>
                             <div class="flex absolute px-1 top-0 right-0 gap-1 py-1">
-                                <button id="editModul" @click="getModule(a.module_id)" class="text-black hover:text-indigo-800"><svg
-                                        class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                <button id="editModul" @click="getModule(a.module_id)"
+                                    class="text-black hover:text-indigo-800"><svg class="w-5 h-5"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg></button>
-                                <button id="deleteModul" @click="deleteModule(a.module_id)" class="text-black hover:text-indigo-600"><svg class="w-5 h-5"
+                                <button id="deleteModul" @click="deleteModule(a.module_id)"
+                                    class="text-black hover:text-indigo-600"><svg class="w-5 h-5"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -227,15 +229,16 @@ function offModal() {
                             <div class="bodyModal text-start">
                                 <form @submit.prevent="addModule">
                                     <div>
-                                        <label for="namemodule">Judul Modul</label>
+                                        <label for="namemodule">Nama Session</label>
                                         <input id="namemodule" type="text" class="textinput mt-1 block w-full" required
                                             autofocus autocomplete="name" v-model="module.module_name">
                                         <small v-if="isError" class="errorMsg">{{ errorMsg }}</small>
                                     </div>
                                     <div class="mt-4">
-                                        <label for="modulelink">Link video module</label>
-                                        <input id="modulelink" type="text" class="textinput mt-1 block w-full" required
-                                            v-model="module.module_link">
+                                        <label for="modulelink">Deskripsi Session</label>
+                                        <QuillEditor v-model:content="module.description" toolbar="minimal"
+                                            style="height: 150px;" contentType="html">
+                                        </QuillEditor>
                                         <small v-if="isError" class="errorMsg">{{ errorMsg }}</small>
                                     </div>
                                 </form>
@@ -264,15 +267,16 @@ function offModal() {
                             <div class="bodyModal text-start">
                                 <form @submit.prevent="editModule(editedModuleId)">
                                     <div>
-                                        <label for="namemodule">Judul Modul</label>
+                                        <label for="namemodule">Judul Session</label>
                                         <input id="namemodule" type="text" class="textinput mt-1 block w-full" required
                                             autofocus autocomplete="name" v-model="editedmodule.module_name">
                                         <small v-if="isError" class="errorMsg">{{ errorMsg }}</small>
                                     </div>
                                     <div class="mt-4">
-                                        <label for="modulelink">Link video modul</label>
-                                        <input id="modulelink" type="text" class="textinput mt-1 block w-full" required
-                                            v-model="editedmodule.module_link">
+                                        <label for="modulelink">Deskripsi</label>
+                                        <QuillEditor v-model:content="editedmodule.description" toolbar="minimal"
+                                            style="height: 150px;" contentType="html">
+                                        </QuillEditor>
                                         <small v-if="isError" class="errorMsg">{{ errorMsg }}</small>
                                     </div>
                                 </form>

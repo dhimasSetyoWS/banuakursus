@@ -7,7 +7,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { Head, Link } from '@inertiajs/vue3';
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-
+import Swal from 'sweetalert2';
 const app = createApp()
 
 const appName = 'BanuaKursus';
@@ -21,10 +21,13 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        const vueapp =  createApp({ render: () => h(App, props) })
+
+        vueapp.config.globalProperties.Swal = Swal // Initialize Swal
+        return vueapp
             .use(plugin)
             .use(ZiggyVue)
-            .component("Head" , Head) // agar tidak import head dan link lagi di tiap component
+            .component("Head" , Head)
             .component("Link" , Link)
             .component('QuillEditor', QuillEditor)
             .mount(el);

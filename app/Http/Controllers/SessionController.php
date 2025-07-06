@@ -10,7 +10,7 @@ class SessionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function getAllCourse()
+    public function getAllSession()
     {
         //
         return CourseModule::all();
@@ -25,13 +25,13 @@ class SessionController extends Controller
         //
         $validate = $request->validate([
             'module_name' => 'required|string|max:80',
-            'module_link' => 'required|string|max:80'
+            'description' => 'required|string'
         ]);
         if($validate) {
             sleep(2);
             CourseModule::create([
                 'module_name' => $request->module_name,
-                'module_link' => $request->module_link,
+                'description' => $request->description,
                 'course_id' => $request->course_id
             ]);
         }
